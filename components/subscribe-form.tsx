@@ -31,10 +31,27 @@ export function SubscribeForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Simulate subscription
-    toast.success("Successfully subscribed to newsletter!");
-    form.reset();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: values.email }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Something went wrong.");
+      }
+
+      toast.success("Successfully subscribed! Check your inbox.");
+      form.reset();
+    } catch (error: any) {
+      toast.error(error.message || "Subscription failed.");
+    }
   }
 
   return (
@@ -62,8 +79,7 @@ export function SubscribeForm() {
             </h2>
             <p className="text-lg text-foreground/70">
               Get the latest AI insights, trends, and breakthroughs delivered
-              straight to your inbox. Join our community of forward-thinking
-              professionals.
+              straight to your inbox.
             </p>
           </div>
 
@@ -111,7 +127,7 @@ export function SubscribeForm() {
             viewport={{ once: true }}
             className="mt-4 text-sm text-foreground/60"
           >
-            No spam, unsubscribe at any time. We respect your privacy.
+            No spam. Unsubscribe anytime. We respect your inbox.
           </motion.p>
         </motion.div>
       </div>
