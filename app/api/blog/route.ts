@@ -1,4 +1,3 @@
-// app/api/blog/route.ts
 import { NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
 import path from "path";
@@ -6,57 +5,63 @@ import { mkdirSync, existsSync } from "fs";
 import matter from "gray-matter";
 import slugify from "slugify";
 
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic"; // This ensures dynamic route behavior
 
 export async function POST(req: Request) {
   try {
     const formData = await req.formData();
     const file = formData.get("file") as File;
 
-    if (!file) {
-      console.error("No file found in FormData");
-      return NextResponse.json({ error: "No file uploaded." }, { status: 400 });
-    }
-
-    if (file.type !== "text/markdown" && !file.name.endsWith(".mdx")) {
-      console.error("Invalid file type:", file.type);
+    if (
+      !file ||
+      (file.type !== "text/markdown" && !file.name.endsWith(".mdx"))
+    ) {
       return NextResponse.json(
-        { error: "Invalid file type." },
+        { error: "Please upload a valid .mdx file." },
         { status: 400 }
       );
     }
 
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const content = buffer.toString("utf8");
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const content = buffer.toString("utf-8");
 
     const { data } = matter(content);
     const title = data?.title;
 
     if (!title) {
-      console.error("Missing title in frontmatter");
       return NextResponse.json(
-        { error: "Missing title in frontmatter." },
+        { error: "The uploaded file must contain a 'title' in frontmatter." },
         { status: 400 }
       );
     }
 
     const filename = `${slugify(title, { lower: true, strict: true })}.mdx`;
-    const blogDir = path.join(process.cwd(), "src", "content", "blog");
+    const outputDir = path.join(process.cwd(), "src", "content", "blog");
 
-    if (!existsSync(blogDir)) {
-      mkdirSync(blogDir, { recursive: true });
+    // Make directory if it doesn't exist
+    if (!existsSync(outputDir)) {
+      mkdirSync(outputDir, { recursive: true });
     }
 
-    const filePath = path.join(blogDir, filename);
-    await writeFile(filePath, content, "utf8");
+    const filepath = path.join(outputDir, filename);
 
-    console.log(`✅ Blog uploaded to: ${filePath}`);
+    // 🚨 Check if file already exists
+    if (existsSync(filepath)) {
+      return NextResponse.json(
+        { error: "A blog post with this title already exists." },
+        { status: 409 }
+      );
+    }
+
+    // Save file
+    await writeFile(filepath, content, "utf8");
 
     return NextResponse.json({ success: true, filename });
-  } catch (err: any) {
-    console.error("❌ Upload error:", err);
+  } catch (error: any) {
+    console.error("Error uploading blog:", error);
     return NextResponse.json(
-      { error: err.message || "Unknown error" },
+      { error: "Something went wrong. Try again." },
       { status: 500 }
     );
   }

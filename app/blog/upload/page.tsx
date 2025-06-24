@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
@@ -19,32 +20,32 @@ Start writing your blog content here using **Markdown** and <React />!
 export default function BlogUploadPage() {
   const [status, setStatus] = useState("");
   const [uploadedFile, setUploadedFile] = useState("");
+  const [preview, setPreview] = useState("");
+  const router = useRouter();
 
   const handleUpload = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("Uploading...");
 
     const formData = new FormData(e.currentTarget);
+    const file = formData.get("file") as File;
 
-    try {
-      const res = await fetch("/api/blog", {
-        method: "POST",
-        body: formData,
-      });
+    const text = await file.text();
+    setPreview(text);
 
-      const data = await res.json();
+    const res = await fetch("/api/blog", {
+      method: "POST",
+      body: formData,
+    });
 
-      if (res.ok) {
-        setStatus(`✅ Uploaded as: ${data.filename}`);
-        setUploadedFile(data.filename);
-        toast.success(`✅ '${data.filename}' uploaded successfully!`);
-      } else {
-        setStatus(`❌ Error: ${data.error}`);
-        toast.error(`❌ Upload failed: ${data.error}`);
-      }
-    } catch (err) {
-      setStatus(`❌ Upload failed. Try again.`);
-      toast.error("❌ Upload failed. Server error.");
+    const data = await res.json();
+    if (res.ok) {
+      setStatus(`✅ Uploaded as: ${data.filename}`);
+      setUploadedFile(data.filename);
+      toast.success(`📝 Blog uploaded: ${data.filename}`);
+    } else {
+      setStatus(`❌ Error: ${data.error}`);
+      toast.error(`❌ Upload failed: ${data.error}`);
     }
   };
 
@@ -58,17 +59,23 @@ export default function BlogUploadPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0e0e1a] via-[#141421] to-[#0e0e1a] text-white px-6 py-20">
+    <div className="min-h-screen bg-gradient-to-br from-[#0e0e1a] via-[#141421] to-[#0e0e1a] text-white px-6 py-10">
+      <div className="flex justify-between items-center max-w-5xl mx-auto mb-6">
+        <h1 className="text-3xl font-bold">📤 Upload Blog</h1>
+        <button
+          onClick={() => router.push("/")}
+          className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition"
+        >
+          🏠 Back to Home
+        </button>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.4 }}
         className="max-w-3xl mx-auto backdrop-blur-md bg-white/5 border border-white/10 p-8 rounded-xl shadow-xl"
       >
-        <h1 className="text-4xl font-bold text-white mb-6 text-center">
-          Upload Blog Post (.mdx)
-        </h1>
-
         <form onSubmit={handleUpload} className="space-y-6">
           <input
             type="file"
@@ -79,14 +86,22 @@ export default function BlogUploadPage() {
           />
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-primary to-primary/80 text-white px-4 py-3 rounded-lg transition-all hover:scale-105 hover:shadow-lg"
+            className="w-full bg-gradient-to-r from-green-600 to-green-500 text-white px-4 py-3 rounded-lg transition hover:scale-105 hover:shadow-lg"
           >
             Upload
           </button>
         </form>
 
-        <p className="mt-4 text-center text-sm text-green-400">{status}</p>
-        
+        {status && (
+          <p className="mt-4 text-center text-sm text-green-400">{status}</p>
+        )}
+        {uploadedFile && (
+          <p className="text-center text-sm text-gray-300 mt-2">
+            🎉 Your blog file{" "}
+            <span className="font-semibold">{uploadedFile}</span> has been
+            uploaded successfully.
+          </p>
+        )}
 
         <div
           className="mt-10 p-6 bg-white/5 rounded-lg border border-white/10 cursor-pointer transition hover:bg-white/10"
@@ -102,6 +117,15 @@ export default function BlogUploadPage() {
             📋 Click above to copy template to clipboard.
           </p>
         </div>
+
+        {preview && (
+          <div className="mt-10 bg-black/40 p-6 rounded-lg">
+            <h3 className="text-xl font-semibold mb-2">📄 Live Preview</h3>
+            <pre className="text-sm text-gray-300 whitespace-pre-wrap overflow-auto">
+              {preview}
+            </pre>
+          </div>
+        )}
       </motion.div>
     </div>
   );
