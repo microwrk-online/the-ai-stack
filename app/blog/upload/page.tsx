@@ -117,7 +117,7 @@ export default function BlogUploadPage() {
             📋 Click above to copy template to clipboard.
           </p>
         </div>
-
+        
         {preview && (
           <div className="mt-10 bg-black/40 p-6 rounded-lg">
             <h3 className="text-xl font-semibold mb-2">📄 Live Preview</h3>

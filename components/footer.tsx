@@ -109,6 +109,10 @@ export default function Footer() {
               </motion.div>
             </form>
           </Form>
+          <hr />
+          <p className="mt-16 text-xs" style={{ fontStyle: "italic", color: "gray" }}>
+            ✍️ Written by <strong>Joshua Daniel</strong>
+          </p>
         </div>
       </div>
     </motion.footer>
