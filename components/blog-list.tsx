@@ -1,12 +1,18 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Calendar, Clock, ArrowRight } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import type { BlogPost } from '@/lib/blog';
+import * as React from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Calendar, Clock, ArrowRight } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import type { BlogPost } from "@/lib/blog";
 
 interface BlogListProps {
   posts: BlogPost[];
@@ -18,8 +24,12 @@ export function BlogList({ posts }: BlogListProps) {
       <section className="py-16 sm:py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="mb-4 text-3xl font-bold text-foreground">Latest AI Insights</h2>
-            <p className="text-foreground/70">No blog posts available yet. Check back soon!</p>
+            <h2 className="mb-4 text-3xl font-bold text-foreground">
+              Latest AI Insights
+            </h2>
+            <p className="text-foreground/70">
+              No blog posts available yet. Check back soon!
+            </p>
           </div>
         </div>
       </section>
@@ -27,7 +37,7 @@ export function BlogList({ posts }: BlogListProps) {
   }
 
   return (
-    <section className="py-16 sm:py-20">
+    <section id="blog-list" className="py-16 sm:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -40,8 +50,9 @@ export function BlogList({ posts }: BlogListProps) {
             Latest AI Insights
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-foreground/70">
-            Discover cutting-edge research, practical applications, and expert perspectives 
-            on the rapidly evolving world of artificial intelligence.
+            Discover cutting-edge research, practical applications, and expert
+            perspectives on the rapidly evolving world of artificial
+            intelligence.
           </p>
         </motion.div>
 
@@ -75,7 +86,11 @@ export function BlogList({ posts }: BlogListProps) {
                     <div className="flex items-center justify-between">
                       <div className="flex flex-wrap gap-2">
                         {post.tags?.slice(0, 2).map((tag) => (
-                          <Badge key={tag} variant="secondary" className="text-xs">
+                          <Badge
+                            key={tag}
+                            variant="secondary"
+                            className="text-xs"
+                          >
                             {tag}
                           </Badge>
                         ))}

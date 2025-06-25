@@ -13,7 +13,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Send } from "lucide-react";
+import { Brain, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -50,11 +50,10 @@ export default function Footer() {
         {/* Left section */}
         <div className="flex flex-col justify-between h-full">
           <div>
-            <Link
-              href="/"
-              className="text-2xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent"
-            >
-              The AI Stack
+            <Link href="/" className="flex items-center space-x-2">
+              <div className="hidden font-bold sm:block">
+                <span className="text-2xl text-foreground">The AI Stack</span>
+              </div>
             </Link>
             <p className="mt-4 text-sm text-gray-600 dark:text-gray-400 max-w-sm leading-relaxed">
               Each week, we drop the sharpest AI tools, killer SaaS ideas, and
@@ -110,7 +109,10 @@ export default function Footer() {
             </form>
           </Form>
           <hr />
-          <p className="mt-16 text-xs" style={{ fontStyle: "italic", color: "gray" }}>
+          <p
+            className="mt-16 text-xs"
+            style={{ fontStyle: "italic", color: "gray" }}
+          >
             ✍️ Written by <strong>Joshua Daniel</strong>
           </p>
         </div>

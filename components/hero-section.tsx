@@ -58,18 +58,30 @@ export function HeroSection() {
           >
             <Button
               size="lg"
-              className="bg-gradient-to-r from-primary to-primary/80 px-8 text-base transition-all hover:scale-105 hover:shadow-lg"
+              className="bg-gradient-to-r from-primary to-primary/80 px-8 text-base transform transition-transform hover:scale-105 hover:shadow-lg"
+              onClick={() => {
+                setTimeout(() => {
+                  const section = document.getElementById("blog-list");
+                  if (section) {
+                    section.scrollIntoView({
+                      behavior: "smooth",
+                      block: "start",
+                    });
+                  }
+                }, 100); // small delay ensures DOM is ready
+              }}
             >
               Start Reading
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button
+
+            {/* <Button
               variant="outline"
               size="lg"
               className="border-primary/20 px-8 text-base transition-all hover:scale-105 hover:bg-primary/5"
             >
               Browse Topics
-            </Button>
+            </Button> */}
           </motion.div>
         </div>
       </div>
