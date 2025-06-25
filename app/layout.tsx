@@ -1,14 +1,15 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { ThemeProvider } from '@/components/theme-provider';
-import { Toaster } from '@/components/ui/sonner';
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'AI Insights Blog - Exploring the Future of Artificial Intelligence',
-  description: 'Stay updated with the latest trends, insights, and breakthroughs in artificial intelligence. Expert analysis, tutorials, and thought leadership.',
+  title: "The AI Stack",
+  description:
+    "Stay updated with the latest trends, insights, and breakthroughs in artificial intelligence. Expert analysis, tutorials, and thought leadership.",
 };
 
 export default function RootLayout({
