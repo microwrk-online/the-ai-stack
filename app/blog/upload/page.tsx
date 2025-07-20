@@ -5,6 +5,13 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
+// 1️⃣  Supabase client (add to your repo)
+import { createClient } from "@supabase/supabase-js";
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
 const mdxTemplate = `---
 title: "Your Blog Title"
 description: "A short summary of the blog."
@@ -30,32 +37,36 @@ export default function BlogUploadPage() {
     const formData = new FormData(e.currentTarget);
     const file = formData.get("file") as File;
 
-    const text = await file.text();
-    setPreview(text);
-
-    const res = await fetch("/api/blog", {
-      method: "POST",
-      body: formData,
-    });
-
-    const data = await res.json();
-    if (res.ok) {
-      setStatus(`✅ Uploaded as: ${data.filename}`);
-      setUploadedFile(data.filename);
-      toast.success(`📝 Blog uploaded: ${data.filename}`);
-    } else {
-      setStatus(`❌ Error: ${data.error}`);
-      toast.error(`❌ Upload failed: ${data.error}`);
+    if (!file.name.endsWith(".mdx")) {
+      toast.error("Only .mdx files allowed");
+      return;
     }
+
+    // 2️⃣  Upload straight to Supabase Storage
+    const { data, error } = await supabase.storage
+      .from("letters") // bucket name
+      .upload(file.name, file, {
+        cacheControl: "3600",
+        upsert: true, // overwrite if exists
+      });
+
+    if (error) {
+      setStatus(`❌ ${error.message}`);
+      toast.error(`Upload failed: ${error.message}`);
+      return;
+    }
+
+    setStatus(`✅ Uploaded: ${data.path}`);
+    setUploadedFile(data.path);
+    toast.success(`📝 Blog uploaded: ${data.path}`);
+
+    // Preview
+    setPreview(await file.text());
   };
 
   const handleTemplateClick = async () => {
-    try {
-      await navigator.clipboard.writeText(mdxTemplate);
-      toast.success("📋 MDX template copied to clipboard!");
-    } catch (err) {
-      toast.error("❌ Failed to copy template.");
-    }
+    await navigator.clipboard.writeText(mdxTemplate);
+    toast.success("📋 MDX template copied!");
   };
 
   return (
@@ -117,7 +128,7 @@ export default function BlogUploadPage() {
             📋 Click above to copy template to clipboard.
           </p>
         </div>
-        
+
         {preview && (
           <div className="mt-10 bg-black/40 p-6 rounded-lg">
             <h3 className="text-xl font-semibold mb-2">📄 Live Preview</h3>

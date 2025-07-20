@@ -6,13 +6,13 @@ import { getSortedPostsData } from "@/lib/blog";
 import Footer from "@/components/footer";
 import { Analytics } from "@vercel/analytics/next";
 
-export default function HomePage() {
-  const posts = getSortedPostsData();
+export default async function HomePage() {
+  const posts = await getSortedPostsData(); // <-- await the Promise
 
   return (
     <>
       <Analytics />
-      <main className="min-h-screen">
+      <main className="min-h-screen bg-black text-white">
         <Header />
         <HeroSection />
         <SubscribeForm />

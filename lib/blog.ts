@@ -1,8 +1,11 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+// lib/blog.ts  (Supabase-only, zero local files)
+import matter from "gray-matter";
+import { createClient } from "@supabase/supabase-js";
 
-const postsDirectory = path.join(process.cwd(), 'src/content/blog');
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 export interface BlogPost {
   slug: string;
@@ -14,88 +17,68 @@ export interface BlogPost {
   tags?: string[];
 }
 
-export function getSortedPostsData(): BlogPost[] {
-  try {
-    // Ensure directory exists
-    if (!fs.existsSync(postsDirectory)) {
-      return [];
-    }
-
-    const fileNames = fs.readdirSync(postsDirectory);
-    const allPostsData = fileNames
-      .filter((fileName) => fileName.endsWith('.mdx'))
-      .map((fileName) => {
-        const slug = fileName.replace(/\.mdx$/, '');
-        const fullPath = path.join(postsDirectory, fileName);
-        const fileContents = fs.readFileSync(fullPath, 'utf8');
-        const matterResult = matter(fileContents);
-
-        return {
-          slug,
-          content: matterResult.content,
-          ...(matterResult.data as {
-            title: string;
-            date: string;
-            summary: string;
-            author?: string;
-            tags?: string[];
-          }),
-        };
-      });
-
-    return allPostsData.sort((a, b) => {
-      if (a.date < b.date) {
-        return 1;
-      } else {
-        return -1;
-      }
-    });
-  } catch (error) {
-    console.error('Error reading blog posts:', error);
-    return [];
-  }
+/* ---------- helper ---------- */
+function safeFrontMatter(
+  data: Record<string, unknown>
+): Omit<BlogPost, "slug" | "content"> {
+  const { title, date, author, summary, tags } = data;
+  return {
+    title: typeof title === "string" ? title : "Untitled",
+    date: typeof date === "string" ? date : new Date().toISOString(),
+    author: typeof author === "string" ? author : undefined,
+    summary: typeof summary === "string" ? summary : "",
+    tags: Array.isArray(tags)
+      ? tags.filter((t): t is string => typeof t === "string")
+      : [],
+  };
 }
 
-export function getPostBySlug(slug: string): BlogPost | null {
-  try {
-    const fullPath = path.join(postsDirectory, `${slug}.mdx`);
-    
-    if (!fs.existsSync(fullPath)) {
-      return null;
-    }
+/* ---------- getSortedPostsData ---------- */
+export async function getSortedPostsData(): Promise<BlogPost[]> {
+  const { data } = await supabase.storage.from("letters").list();
+  if (!data) return [];
 
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const matterResult = matter(fileContents);
+  const posts = (
+    await Promise.all(
+      data
+        .filter((f) => f.name !== ".emptyFolderPlaceholder")
+        .map(async ({ name }) => {
+          const slug = name;
+          const { data: file } = await supabase.storage
+            .from("letters")
+            .download(name);
+          if (!file) return null;
 
-    return {
-      slug,
-      content: matterResult.content,
-      ...(matterResult.data as {
-        title: string;
-        date: string;
-        summary: string;
-        author?: string;
-        tags?: string[];
-      }),
-    };
-  } catch (error) {
-    console.error('Error reading blog post:', error);
-    return null;
-  }
+          const raw = await file.text();
+          const { data: front, content } = matter(raw);
+          return { slug, content, ...safeFrontMatter(front) } as BlogPost;
+        })
+    )
+  ).filter((p): p is BlogPost => p !== null);
+
+  return posts.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 }
 
-export function getAllPostSlugs() {
-  try {
-    if (!fs.existsSync(postsDirectory)) {
-      return [];
-    }
+/* ---------- getPostBySlug ---------- */
+export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
+  const { data: file, error } = await supabase.storage
+    .from("letters")
+    .download(slug);
+  if (error || !file) return null;
 
-    const fileNames = fs.readdirSync(postsDirectory);
-    return fileNames
-      .filter((fileName) => fileName.endsWith('.mdx'))
-      .map((fileName) => fileName.replace(/\.mdx$/, ''));
-  } catch (error) {
-    console.error('Error getting post slugs:', error);
-    return [];
-  }
+  const raw = await file.text();
+  const { data: front, content } = matter(raw);
+  return { slug, content, ...safeFrontMatter(front) };
+}
+
+/* ---------- getAllPostSlugs ---------- */
+// lib/blog.ts  (only the two snippets that changed)
+
+export async function getAllPostSlugs(): Promise<string[]> {
+  const { data } = await supabase.storage.from("letters").list();
+  return (data ?? [])
+    .filter((f) => f.name !== ".emptyFolderPlaceholder")
+    .map((f) => f.name);
 }

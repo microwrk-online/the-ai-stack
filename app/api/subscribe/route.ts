@@ -12,7 +12,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // ✅ Initialize Supabase with Service Role (server-side only)
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!, // must be defined in .env.local
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // this is sensitive — server only
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! // this is sensitive — server only
 );
 
 export async function POST(req: Request) {

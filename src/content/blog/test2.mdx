@@ -1,0 +1,35 @@
+---
+title: Week-1 DSA Kick-off 🚀
+date: 2024-07-07
+author: The AI Stack
+summary: Finish arrays in 3 days and ship your first mini-project.
+tags: [dsa, arrays, project]
+---
+
+## Day-1 – Arrays & Loops
+
+- Watch: [Striver Arrays 1-shot](https://youtu.be/t_f0nwwdg5o) (30 min).
+- Solve: 5 LeetCode easy array problems (set a timer for 45 min).
+
+## Day-2 – Functions & Edge-Cases
+
+- Read: C++ STL vector cheatsheet (or Python list) – 15 min.
+- Practice: Rotate array left by k steps (in-place).
+
+## Day-3 – Project Time
+
+Build **CLI Grade Calculator**  
+Features:
+
+- Input: marks[]
+- Output: average + grade (A/B/C/D/F)
+- Bonus: coloured output with `chalk` (Node) or `colorama` (Python).
+
+## Code starter (Python)
+
+```py
+marks = list(map(int, input("Enter marks: ").split()))
+avg = sum(marks) / len(marks)
+grade = "A" if avg >= 90 else "B" if avg >= 80 else "C" if avg >= 70 else "D" if avg >= 60 else "F"
+print(f"Average: {avg:.2f} → Grade: {grade}")
+```
