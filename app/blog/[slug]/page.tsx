@@ -44,6 +44,7 @@ async function getRemotePost(slug: string): Promise<Post | null> {
     content: parsed.content,
   };
 }
+export const dynamic = "force-dynamic";
 
 export async function generateStaticParams() {
   const { data } = await supabase.storage.from("letters").list();
