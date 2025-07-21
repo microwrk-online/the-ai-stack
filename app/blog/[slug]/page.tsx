@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import matter from "gray-matter";
 import { createClient } from "@supabase/supabase-js";
 import { Header } from "@/components/header";
+import { getSortedPostsData } from "@/lib/blog";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -44,15 +45,15 @@ async function getRemotePost(slug: string): Promise<Post | null> {
     content: parsed.content,
   };
 }
-export const dynamic = "force-dynamic";  // dynamic rendering for each request
+export const dynamic = "force-dynamic"; // dynamic rendering for each request
 
 export const revalidate = 60; // dynamic revalidation every 60 seconds
 
 export const fetchCache = "force-no-store"; // <--- this is the missing part
 
-export async function generateStaticParams() {
-  const { data } = await supabase.storage.from("letters").list();
-  return (data ?? []).map((f) => ({ slug: f.name }));
+export async function getStaticProps() {
+  const posts = await getSortedPostsData();
+  return { props: { posts } };
 }
 
 export default async function BlogPostPage({
