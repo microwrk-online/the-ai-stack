@@ -44,7 +44,11 @@ async function getRemotePost(slug: string): Promise<Post | null> {
     content: parsed.content,
   };
 }
-export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";  // dynamic rendering for each request
+
+export const revalidate = 60; // dynamic revalidation every 60 seconds
+
+export const fetchCache = "force-no-store"; // <--- this is the missing part
 
 export async function generateStaticParams() {
   const { data } = await supabase.storage.from("letters").list();
