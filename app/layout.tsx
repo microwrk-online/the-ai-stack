@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "Unplaced University",
   description:
     "Stay updated with the latest trends, insights, and breakthroughs in artificial intelligence. Expert analysis, tutorials, and thought leadership.",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({

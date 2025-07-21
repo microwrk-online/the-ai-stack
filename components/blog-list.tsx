@@ -14,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import type { BlogPost } from "@/lib/blog";
 import { Button } from "./ui/button";
+import { format } from "date-fns";
 
 interface BlogListProps {
   posts: BlogPost[];
@@ -38,7 +39,10 @@ export function BlogList({ posts }: BlogListProps) {
   }
 
   return (
-    <section id="blog-list" className="relative overflow-hidden bg-gray-300 dark:bg-black from-background via-background to-primary/5 py-20 sm:py-20">
+    <section
+      id="blog-list"
+      className="relative overflow-hidden bg-gray-300 dark:bg-black from-background via-background to-primary/5 py-20 sm:py-20"
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -71,7 +75,9 @@ export function BlogList({ posts }: BlogListProps) {
                     <div className="mb-2 flex items-center justify-between">
                       <div className="flex items-center space-x-2 text-sm text-foreground/60">
                         <Calendar className="h-4 w-4" />
-                        <span>{new Date(post.date).toLocaleDateString()}</span>
+                        <span>
+                          {format(new Date(post.date), "dd/MM/yyyy")}
+                        </span>{" "}
                       </div>
                       <Clock className="h-4 w-4 text-foreground/40" />
                     </div>
@@ -107,7 +113,6 @@ export function BlogList({ posts }: BlogListProps) {
               </Link>
             </motion.div>
           ))}
-          
         </div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}

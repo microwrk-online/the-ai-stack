@@ -42,7 +42,7 @@ function formatDate(dateString: any): string {
   const date = safeParseDate(dateString);
   if (!date) return "No date";
 
-  return format(date, "MMM dd, yyyy");
+  return format(date, "dd/MM/yyyy");
 }
 
 export default function BlogPage() {
@@ -141,7 +141,9 @@ export default function BlogPage() {
                       <div className="mb-2 flex items-center justify-between">
                         <div className="flex items-center space-x-2 text-sm text-foreground/60">
                           <Calendar className="h-4 w-4" />
-                          <span>{formatDate(post.date)}</span>
+                          <span>
+                            {format(new Date(post.date), "dd/MM/yyyy")}
+                          </span>
                         </div>
                         <Clock className="h-4 w-4 text-foreground/40" />
                       </div>
