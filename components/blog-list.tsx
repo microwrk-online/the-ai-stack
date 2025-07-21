@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { BlogPost } from "@/lib/blog";
+import { Button } from "./ui/button";
 
 interface BlogListProps {
   posts: BlogPost[];
@@ -37,7 +38,7 @@ export function BlogList({ posts }: BlogListProps) {
   }
 
   return (
-    <section id="blog-list" className="py-16 sm:py-20">
+    <section id="blog-list" className="relative overflow-hidden bg-gray-300 from-background via-background to-primary/5 py-20 sm:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -47,12 +48,11 @@ export function BlogList({ posts }: BlogListProps) {
           className="mb-12 text-center"
         >
           <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl">
-            Latest AI Insights
+            Latest Insights
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-foreground/70">
-            Discover cutting-edge research, practical applications, and expert
-            perspectives on the rapidly evolving world of artificial
-            intelligence.
+            Stay on top of AI breakthroughs, job-ready skills, and practical use
+            cases—minus the hype.
           </p>
         </motion.div>
 
@@ -107,7 +107,25 @@ export function BlogList({ posts }: BlogListProps) {
               </Link>
             </motion.div>
           ))}
+          
         </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+          className="flex justify-center items-center gap-4"
+        >
+          <Button
+            size="lg"
+            className="bg-gradient-to-r from-primary to-primary/80 px-8 text-base transform transition-transform hover:scale-105 hover:shadow-lg"
+            onClick={() => {
+              window.location.href = "/blog";
+            }}
+          >
+            All Posts
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+        </motion.div>
       </div>
     </section>
   );

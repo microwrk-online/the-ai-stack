@@ -55,7 +55,7 @@ export function SubscribeForm() {
   }
 
   return (
-    <section className="py-16 sm:py-20">
+    <section className="relative overflow-hidden bg-gray-300 from-background via-background to-primary/5 py-20 sm:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -78,8 +78,8 @@ export function SubscribeForm() {
               Stay in the Loop
             </h2>
             <p className="text-lg text-foreground/70">
-              Get the latest AI insights, trends, and breakthroughs delivered
-              straight to your inbox.
+              Sick of generic advice and LinkedIn cringe? So are we. We send you
+              only what actually matters.
             </p>
           </div>
 

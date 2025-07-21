@@ -34,10 +34,10 @@ export async function POST(req: Request) {
 
     // ✅ Send welcome email via Resend
     await resend.emails.send({
-      from: "The AI Stack <onboarding@resend.dev>", // 🟡 Make sure this sender is verified
+      from: "Unplaced University <onboarding@resend.dev>", // 🟡 Make sure this sender is verified
       to: email,
       subject: "🎉 Thanks for subscribing!",
-      html: `<p>Hey there! Thanks for subscribing to <strong>The AI Stack</strong>. You're officially in! 🚀</p>`,
+      html: `<p>Hey there! Thanks for subscribing to <strong>Unplaced University</strong>. You're officially in! 🚀</p>`,
     });
 
     return NextResponse.json({ success: true });

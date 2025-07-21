@@ -53,7 +53,7 @@ export function Header() {
                 <Brain className="h-6 w-6 text-primary-foreground" />
               </div>
               <div className="hidden font-bold sm:block">
-                <span className="text-lg text-foreground">The AI Stack</span>
+                <span className="text-lg text-foreground">Unplaced University</span>
               </div>
             </Link>
 
@@ -79,7 +79,7 @@ export function Header() {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="sm">
-                    <Menu className="h-5 w-5" />
+                    <Menu className="h-5 w-5 text-black dark:text-white" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">

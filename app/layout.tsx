@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "The AI Stack",
+  title: "Unplaced University",
   description:
     "Stay updated with the latest trends, insights, and breakthroughs in artificial intelligence. Expert analysis, tutorials, and thought leadership.",
 };

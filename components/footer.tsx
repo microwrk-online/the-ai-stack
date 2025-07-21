@@ -52,18 +52,20 @@ export default function Footer() {
           <div>
             <Link href="/" className="flex items-center space-x-2">
               <div className="hidden font-bold sm:block">
-                <span className="text-2xl text-foreground">The AI Stack</span>
+                <span className="text-2xl text-foreground">
+                  Unplaced University
+                </span>
               </div>
             </Link>
             <p className="mt-4 text-sm text-gray-600 dark:text-gray-400 max-w-sm leading-relaxed">
-              Each week, we drop the sharpest AI tools, killer SaaS ideas, and
-              high-leverage side hustles. Built for indie hackers, solo devs,
-              and builders who move fast.
+              Because your college ain’t placing you, we bring weekly roadmaps,
+              job hacks, and AI tools straight to your inbox.
             </p>
           </div>
 
           <p className="mt-6 text-xs text-gray-500 dark:text-gray-400">
-            © {new Date().getFullYear()} The AI Stack. All rights reserved.
+            © {new Date().getFullYear()} Unplaced University. All rights
+            reserved.
           </p>
         </div>
 
