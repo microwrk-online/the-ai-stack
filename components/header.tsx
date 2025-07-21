@@ -43,7 +43,7 @@ export function Header() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        className="sticky top-0 z-50 w-full backdrop-blur-lg bg-white/30 dark:bg-black/30"
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
@@ -53,7 +53,9 @@ export function Header() {
                 <Brain className="h-6 w-6 text-primary-foreground" />
               </div>
               <div className="hidden font-bold sm:block">
-                <span className="text-lg text-foreground">Unplaced University</span>
+                <span className="text-lg text-foreground">
+                  Unplaced University
+                </span>
               </div>
             </Link>
 

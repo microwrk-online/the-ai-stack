@@ -9,7 +9,7 @@ import clsx from "clsx";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-gray-300 from-background via-background to-primary/5 py-20 sm:py-20">
+    <section className="relative overflow-hidden bg-gray-300 dark:bg-black from-background via-background to-primary/5 py-20 sm:py-20">
       {/* Grid Background */}
       <div className="absolute inset-0 h-[20rem] bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]" />
 

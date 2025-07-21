@@ -12,7 +12,7 @@ export default async function HomePage() {
   return (
     <>
       <Analytics />
-      <main className="min-h-screen bg-black text-white">
+      <main className="min-h-screen bg-gray-300 dark:bg-black text-white">
         <Header />
         <HeroSection />
         <SubscribeForm />

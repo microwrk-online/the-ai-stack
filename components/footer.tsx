@@ -44,7 +44,7 @@ export default function Footer() {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="w-full border-t border-gray-200 dark:border-gray-700 bg-white text-black dark:bg-[#0e0e1a] dark:text-white transition-colors duration-300"
+      className="w-full dark:border-gray-700 bg-gray-200 text-black dark:bg-[#0e0e1a] dark:text-white transition-colors duration-300"
     >
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Left section */}
