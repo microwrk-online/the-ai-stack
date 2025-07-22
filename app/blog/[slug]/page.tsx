@@ -51,10 +51,6 @@ export const revalidate = 60; // dynamic revalidation every 60 seconds
 
 export const fetchCache = "force-no-store"; // <--- this is the missing part
 
-export async function getStaticProps() {
-  const posts = await getSortedPostsData();
-  return { props: { posts } };
-}
 
 export default async function BlogPostPage({
   params,
