@@ -63,10 +63,10 @@ export default async function BlogPostPage({
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-black text-white">
+      <main className="min-h-screen bg-white dark:bg-black text-white">
         <article className="py-16 sm:py-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-6xl">
+            <div className="mx-auto text-black dark:text-white max-w-6xl">
               <Link href="/blog" className="mb-8 inline-block">
                 <Button variant="ghost" className="pl-0">
                   <ArrowLeft className="mr-2 h-4 w-4" />
@@ -79,7 +79,7 @@ export default async function BlogPostPage({
                   {post.title}
                 </h1>
 
-                <div className="mb-6 flex flex-wrap items-center gap-4 text-sm text-gray-400">
+                <div className="mb-6 flex flex-wrap items-center gap-4 text-sm text-black dark:text-white">
                   <div className="flex items-center">
                     <Calendar className="mr-2 h-4 w-4" />
                     {new Date(post.date).toLocaleDateString("en-US", {
@@ -106,7 +106,7 @@ export default async function BlogPostPage({
                   </div>
                 )}
 
-                <p className="text-lg text-gray-300">{post.summary}</p>
+                <p className="text-lg text-black dark:text-white">{post.summary}</p>
                 <Separator className="mt-8" />
               </header>
 
