@@ -35,7 +35,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="mb-6 text-4xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl"
+            className="mb-6 text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl"
           >
             <span className="block">
               <span
@@ -45,7 +45,7 @@ export function HeroSection() {
                 Redefining What It Means to Get Placed
               </span>
             </span>
-            <span className="text-5xl bg-gradient-to-r from-primary via-primary to-primary/60 bg-clip-text text-transparent">
+            <span className="text-4xl bg-gradient-to-r from-primary via-primary to-primary/60 bg-clip-text text-transparent">
               No IIT. No Problem
             </span>
           </motion.h1>
@@ -61,7 +61,7 @@ export function HeroSection() {
             ghosted because of a college name. This is your{" "}
             <span className="font-semibold text-foreground">unfair edge</span>—
             a roadmap, a wake-up call, and a bold push to build the career you
-            *actually* deserve. If you're lost in a Tier-3 college with no
+            *actually* deserve. If you&apos;re lost in a Tier-3 college with no
             placement cell and even less hope—this is for you.
           </motion.p>
 

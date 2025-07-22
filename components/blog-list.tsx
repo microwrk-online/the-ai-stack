@@ -14,10 +14,25 @@ import {
 import { Badge } from "@/components/ui/badge";
 import type { BlogPost } from "@/lib/blog";
 import { Button } from "./ui/button";
-import { format } from "date-fns";
+import { format, isValid, parseISO } from "date-fns";
 
 interface BlogListProps {
   posts: BlogPost[];
+}
+
+function safeParseDate(dateString: any): Date | null {
+  if (!dateString) return null;
+
+  const iso = parseISO(dateString);
+  if (isValid(iso)) return iso;
+
+  const fallback = new Date(dateString);
+  return isValid(fallback) ? fallback : null;
+}
+
+function formatDate(dateString: any): string {
+  const date = safeParseDate(dateString);
+  return date ? format(date, "dd/MM/yyyy") : "Invalid Date";
 }
 
 export function BlogList({ posts }: BlogListProps) {
@@ -75,9 +90,7 @@ export function BlogList({ posts }: BlogListProps) {
                     <div className="mb-2 flex items-center justify-between">
                       <div className="flex items-center space-x-2 text-sm text-foreground/60">
                         <Calendar className="h-4 w-4" />
-                        <span>
-                          {format(new Date(post.date), "dd/MM/yyyy")}
-                        </span>{" "}
+                        <span>{formatDate(post.date)}</span>
                       </div>
                       <Clock className="h-4 w-4 text-foreground/40" />
                     </div>
@@ -91,7 +104,7 @@ export function BlogList({ posts }: BlogListProps) {
                   <CardContent>
                     <div className="flex items-center justify-between">
                       <div className="flex flex-wrap gap-2">
-                        {post.tags?.slice(0, 2).map((tag) => (
+                        {post.tags?.slice(0, 2).map((tag: string) => (
                           <Badge
                             key={tag}
                             variant="secondary"
@@ -114,11 +127,12 @@ export function BlogList({ posts }: BlogListProps) {
             </motion.div>
           ))}
         </div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-          className="flex justify-center items-center gap-4"
+          className="flex justify-center items-center p-12 gap-4"
         >
           <Button
             size="lg"

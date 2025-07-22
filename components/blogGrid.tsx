@@ -15,7 +15,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Header } from "@/components/header";
+import { Button } from "./ui/button";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -38,7 +38,7 @@ function formatDate(dateString: any): string {
   return date ? format(date, "dd/MM/yyyy") : "Invalid Date";
 }
 
-export default function BlogPage() {
+export default function BlogGrid() {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -76,7 +76,7 @@ export default function BlogPage() {
           return dateB.getTime() - dateA.getTime();
         });
 
-        setPosts(sortedPosts);
+        setPosts(sortedPosts.slice(0, 3));
       } catch (error) {
         console.error("Error fetching posts:", error);
       } finally {
@@ -87,33 +87,28 @@ export default function BlogPage() {
     fetchPosts();
   }, []);
 
-  if (loading) {
-    return (
-      <main className="min-h-screen bg-black text-white px-6 py-10">
-        <div className="container mx-auto max-w-5xl">
-          <div className="mb-12 text-center">
-            <h1 className="mb-4 text-4xl font-bold">AI Blog</h1>
-            <p className="mx-auto max-w-2xl text-lg text-gray-400">
-              Loading articles...
-            </p>
-          </div>
-        </div>
-      </main>
-    );
-  }
-
   return (
     <>
-      <Header />
-      <main className="min-h-screen bg-black text-white px-6 py-10">
-        <div className="container mx-auto max-w-8xl">
-          <div className="mb-12 text-center">
-            <h1 className="mb-4 text-4xl font-bold">AI Blog</h1>
-            <p className="mx-auto max-w-2xl text-lg text-gray-400">
-              Explore our comprehensive collection of articles on artificial
-              intelligence, machine learning, and emerging technologies.
+      <section
+        id="blog-list"
+        className="relative overflow-hidden bg-gray-300 dark:bg-black from-background via-background to-primary/5 py-20 sm:py-20"
+      >
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="mb-12 text-center"
+          >
+            <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl">
+              Latest Insights
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-foreground/70">
+              Stay on top of AI breakthroughs, job-ready skills, and practical
+              use cases—minus the hype.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {posts.map((post, index) => (
@@ -129,9 +124,8 @@ export default function BlogPage() {
                     <CardHeader>
                       <div className="mb-2 flex items-center justify-between">
                         <div className="flex items-center space-x-2 text-sm text-foreground/60">
-                          <span>#{(post.number)}</span>
+                          <span>#{post.number}</span>
                         </div>
-                        {/* works well */}
                         <div className="flex items-center space-x-2 text-sm text-foreground/60">
                           <Calendar className="h-4 w-4" />
                           <span>{formatDate(post.date)}</span>
@@ -171,8 +165,26 @@ export default function BlogPage() {
               </motion.div>
             ))}
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+            className="flex justify-center items-center p-12 gap-4"
+          >
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-primary to-primary/80 px-8 text-base transform transition-transform hover:scale-105 hover:shadow-lg"
+              onClick={() => {
+                window.location.href = "/blog";
+              }}
+            >
+              All Posts
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </motion.div>
         </div>
-      </main>
+      </section>
     </>
   );
 }
