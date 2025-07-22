@@ -1,4 +1,4 @@
-// lib/blog.ts  (Supabase-only, zero local files)
+// lib/blog.ts
 import matter from "gray-matter";
 import { createClient } from "@supabase/supabase-js";
 
@@ -17,7 +17,7 @@ export interface BlogPost {
   tags?: string[];
 }
 
-/* ---------- helper ---------- */
+/* Helper to sanitize frontmatter */
 function safeFrontMatter(
   data: Record<string, unknown>
 ): Omit<BlogPost, "slug" | "content"> {
@@ -33,7 +33,7 @@ function safeFrontMatter(
   };
 }
 
-/* ---------- getSortedPostsData ---------- */
+/* Get all blog posts sorted */
 export async function getSortedPostsData(): Promise<BlogPost[]> {
   const { data } = await supabase.storage.from("letters").list();
   if (!data) return [];
@@ -61,7 +61,7 @@ export async function getSortedPostsData(): Promise<BlogPost[]> {
   );
 }
 
-/* ---------- getPostBySlug ---------- */
+/* Get single blog by slug */
 export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   const { data: file, error } = await supabase.storage
     .from("letters")
@@ -71,14 +71,4 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   const raw = await file.text();
   const { data: front, content } = matter(raw);
   return { slug, content, ...safeFrontMatter(front) };
-}
-
-/* ---------- getAllPostSlugs ---------- */
-// lib/blog.ts  (only the two snippets that changed)
-
-export async function getAllPostSlugs(): Promise<string[]> {
-  const { data } = await supabase.storage.from("letters").list();
-  return (data ?? [])
-    .filter((f) => f.name !== ".emptyFolderPlaceholder")
-    .map((f) => f.name);
 }
