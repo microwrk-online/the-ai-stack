@@ -5,6 +5,7 @@ import { BlogList } from "@/components/blog-list";
 import { getSortedPostsData } from "@/lib/blog";
 import Footer from "@/components/footer";
 import { Analytics } from "@vercel/analytics/next";
+import BlogGrid from "@/components/blogGrid";
 
 export default async function HomePage() {
   const posts = await getSortedPostsData(); // <-- await the Promise
@@ -16,7 +17,8 @@ export default async function HomePage() {
         <Header />
         <HeroSection />
         <SubscribeForm />
-        <BlogList posts={posts} />
+        <BlogGrid />
+        {/* <BlogList posts={posts} /> */}
         <Footer />
       </main>
     </>
