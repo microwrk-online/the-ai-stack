@@ -22,27 +22,20 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-// Helper function to safely parse dates
+// --- SAFELY PARSE DATE ---
 function safeParseDate(dateString: any): Date | null {
   if (!dateString) return null;
 
-  // Try parsing as ISO string first
-  let date = parseISO(dateString);
-  if (isValid(date)) return date;
+  const iso = parseISO(dateString);
+  if (isValid(iso)) return iso;
 
-  // Try parsing as regular Date constructor
-  date = new Date(dateString);
-  if (isValid(date)) return date;
-
-  return null;
+  const fallback = new Date(dateString);
+  return isValid(fallback) ? fallback : null;
 }
 
-// Helper function to format date safely
 function formatDate(dateString: any): string {
   const date = safeParseDate(dateString);
-  if (!date) return "No date";
-
-  return format(date, "dd/MM/yyyy");
+  return date ? format(date, "dd/MM/yyyy") : "Invalid Date";
 }
 
 export default function BlogPage() {
@@ -74,16 +67,12 @@ export default function BlogPage() {
           )
         ).filter(Boolean);
 
-        // Sort posts by date (newest first), handling invalid dates
         const sortedPosts = fetchedPosts.sort((a, b) => {
           const dateA = safeParseDate(a.date);
           const dateB = safeParseDate(b.date);
-
-          // Put posts with invalid dates at the end
           if (!dateA && !dateB) return 0;
           if (!dateA) return 1;
           if (!dateB) return -1;
-
           return dateB.getTime() - dateA.getTime();
         });
 
@@ -141,9 +130,7 @@ export default function BlogPage() {
                       <div className="mb-2 flex items-center justify-between">
                         <div className="flex items-center space-x-2 text-sm text-foreground/60">
                           <Calendar className="h-4 w-4" />
-                          <span>
-                            {format(new Date(post.date), "dd/MM/yyyy")}
-                          </span>
+                          <span>{formatDate(post.date)}</span>
                         </div>
                         <Clock className="h-4 w-4 text-foreground/40" />
                       </div>
