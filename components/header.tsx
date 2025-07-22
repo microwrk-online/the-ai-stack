@@ -74,6 +74,12 @@ export function Header() {
                 variant="default"
                 size="sm"
                 className="bg-gradient-to-r from-primary to-primary/80"
+                onClick={() => {
+                  const el = document.getElementById("subscribe-form");
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
               >
                 <Mail className="mr-2 h-4 w-4" />
                 Join Newsletter

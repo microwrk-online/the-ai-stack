@@ -34,9 +34,27 @@ export default function Footer() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    toast.success("Successfully subscribed to newsletter!");
-    form.reset();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: values.email }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Something went wrong.");
+      }
+
+      toast.success("Successfully subscribed! Check your inbox.");
+      form.reset();
+    } catch (error: any) {
+      toast.error(error.message || "Subscription failed.");
+    }
   }
 
   return (
@@ -72,16 +90,13 @@ export default function Footer() {
         {/* Right section */}
         <div className="flex flex-col justify-center">
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 w-full"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
+                initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
                 viewport={{ once: true }}
-                className="flex flex-col sm:flex-row gap-4 w-full"
+                className="flex flex-col gap-4 sm:flex-row"
               >
                 <FormField
                   control={form.control}
