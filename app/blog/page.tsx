@@ -131,6 +131,7 @@ export default function BlogPage() {
                         <div className="flex items-center space-x-2 text-sm text-foreground/60">
                           <span>#{(post.number)}</span>
                         </div>
+                        {/* works well */}
                         <div className="flex items-center space-x-2 text-sm text-foreground/60">
                           <Calendar className="h-4 w-4" />
                           <span>{formatDate(post.date)}</span>
