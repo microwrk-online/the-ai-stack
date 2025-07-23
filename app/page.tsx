@@ -1,7 +1,6 @@
 import { Header } from "@/components/header";
 import { HeroSection } from "@/components/hero-section";
 import { SubscribeForm } from "@/components/subscribe-form";
-import { BlogList } from "@/components/blog-list";
 import { getSortedPostsData } from "@/lib/blog";
 import Footer from "@/components/footer";
 import { Analytics } from "@vercel/analytics/next";
@@ -18,7 +17,6 @@ export default async function HomePage() {
         <HeroSection />
         <SubscribeForm />
         <BlogGrid />
-        {/* <BlogList posts={posts} /> */}
         <Footer />
       </main>
     </>

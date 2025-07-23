@@ -55,7 +55,7 @@ export function SubscribeForm() {
   }
 
   return (
-    <section id="subscribe-form" className="relative overflow-hidden bg-white dark:bg-black from-background via-background to-primary/5 py-20 sm:py-20">
+    <section id="subscribe-form" className="relative overflow-hidden bg-very-light-gray dark:bg-almost-black from-background via-background to-primary/5 py-20 sm:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
