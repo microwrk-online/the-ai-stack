@@ -56,6 +56,9 @@ export function Header() {
                 <span className="text-lg text-foreground">
                   Unplaced University
                 </span>
+                <span className="text-xs text-foreground ml-1">
+                  Beta
+                </span>
               </div>
             </Link>
 

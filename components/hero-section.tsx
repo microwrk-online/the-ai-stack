@@ -12,8 +12,10 @@ export function HeroSection() {
     <section className="relative overflow-hidden bg-very-light-gray dark:bg-almost-black from-background via-background to-primary/5 py-20 sm:py-20">
       {/* Grid Background */}
       <div className="absolute inset-0 h-[20rem] bg-grid-white/10 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]" />
-
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
+        <span className="flex items-center justify-center text-lg bg-gradient-to-r from-primary via-primary to-primary/60 bg-clip-text text-transparent">
+          We are still in Beta
+        </span>
         <div className="mx-auto max-w-4xl text-center">
           {/* Tagline */}
           <motion.div
