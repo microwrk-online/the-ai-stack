@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Header } from "@/components/header";
+import Footer from "@/components/footer";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -105,10 +106,12 @@ export default function BlogPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-whitedark:bg-black text-white px-6 py-10">
+      <main className="min-h-[104rem] bg-whitedark:bg-black text-white px-6 py-10">
         <div className="container mx-auto max-w-8xl">
           <div className="mb-12 text-center">
-            <h1 className="mb-4 text-black dark:text-white text-4xl font-bold">AI Blog</h1>
+            <h1 className="mb-4 text-black dark:text-white text-4xl font-bold">
+              AI Blog
+            </h1>
             <p className="mx-auto max-w-2xl text-lg text-black dark:text-white">
               Explore our comprehensive collection of articles on artificial
               intelligence, machine learning, and emerging technologies.
@@ -129,7 +132,7 @@ export default function BlogPage() {
                     <CardHeader>
                       <div className="mb-2 flex items-center justify-between">
                         <div className="flex items-center space-x-2 text-sm text-foreground/60">
-                          <span>#{(post.number)}</span>
+                          <span>#{post.number}</span>
                         </div>
                         {/* works well */}
                         <div className="flex items-center space-x-2 text-sm text-foreground/60">
@@ -173,6 +176,7 @@ export default function BlogPage() {
           </div>
         </div>
       </main>
+      <Footer />
     </>
   );
 }
