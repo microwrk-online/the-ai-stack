@@ -130,7 +130,10 @@ export default function Footer() {
             className="mt-16 text-xs"
             style={{ fontStyle: "italic", color: "gray" }}
           >
-            ✍️ Written by <strong>Joshua Daniel</strong>
+            ✍️ Written by{" "}
+            <Link href="https://www.linkedin.com/in/joshuadaniel8090">
+              <strong>Joshua Daniel</strong>
+            </Link>
           </p>
         </div>
       </div>

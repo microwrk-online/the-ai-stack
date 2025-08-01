@@ -93,7 +93,7 @@ export default function BlogPage() {
       <main className="min-h-screen bg-black text-white px-6 py-10">
         <div className="container mx-auto max-w-5xl">
           <div className="mb-12 text-center">
-            <h1 className="mb-4 text-4xl font-bold">AI Blog</h1>
+            <h1 className="mb-4 text-4xl font-bold">Roadmap Blogs</h1>
             <p className="mx-auto max-w-2xl text-lg text-gray-400">
               Loading articles...
             </p>
